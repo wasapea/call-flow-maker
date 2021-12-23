@@ -27,5 +27,5 @@ class TestHelpers(unittest.TestCase):
         self.assertFalse(get_yes_no_input("test q", 0))
 
 
-
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()
