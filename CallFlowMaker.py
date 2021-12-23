@@ -51,3 +51,28 @@ def get_valid_extension(question, ext_len=4):
         answer = input("{question}\n".format(question=question))
     
     return answer
+
+def get_valid_phone_number(question):
+    """
+        Get an input from the end user and verify it is a valid phone number format
+
+        Inputs:
+            question = string to ask the user
+
+        Recognized formats:
+            1234567890
+            123 456 7890
+            123-456-7890
+            (123)4567890
+            (123) 456 7890
+            (123) 456-7890
+            (123)-456-7890
+    """
+    dn_format = re.compile(r"^\(?\d{3}\)?\s?-?\d{3}\s?-?\d{4}$")
+    answer = input("{question}\n".format(question=question))
+
+    while not re.match(dn_format, answer):
+        print("Please enter a 10 digit phone number")
+        answer = input("{question}\n".format(question=question))
+
+    return True

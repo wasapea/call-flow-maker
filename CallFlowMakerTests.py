@@ -31,6 +31,17 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(get_valid_extension("test q"), "1234") # Inputs: 1, 1234
         self.assertEqual(get_valid_extension("test q", 3), "456") # Inputs: 456
 
+    @patch('builtins.input', side_effect=["", "12345678901", "1234", "1234567890", "1234567890", "(123)4567890", "(123) 4567890", "(123) 456-7890", "123 456 7890", "123-456-7890", "(123) 456 7890"])
+    def test_valid_number(self, inputs):
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (blank/enter), 12345678901, 1234, 1234567890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 1234567890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123)4567890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 4567890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 456-7890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 123 456 7890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 123-456-7890
+        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 456 7890
+
 
 if __name__ == "__main__":
     unittest.main()
