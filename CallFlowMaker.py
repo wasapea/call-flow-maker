@@ -15,8 +15,8 @@ def get_yes_no_input(question, default=2):
         Get an input from the end user and verify it is a y or n
 
         Inputs:
-            question - string to ask the user
-            default (1) - 1 defaults to yes, 0 defaults to no, 2 has no default
+            question = string to ask the user
+            default (1) = 1 defaults to yes, 0 defaults to no, 2 has no default
     """
     answer_format = re.compile(r"^Y|y|N|n$")
     answer = input("{question}\ny/n\n".format(question=question))
@@ -34,3 +34,20 @@ def get_yes_no_input(question, default=2):
         return True
     elif re.match(re.compile(r"n|N"), answer):
         return False
+
+def get_valid_extension(question, ext_len=4):
+    """
+        Get an input from the end user and verify it is the correct extension length
+
+        Inputs:
+            question = string to ask the user
+            ext_len (4) = length of extensions
+    """
+    ext_format = re.compile(r"^\d{" + str(ext_len) + "}$")
+    answer = input("{question}\n".format(question=question))
+
+    while not re.match(ext_format, answer):
+        print("Please enter a {ext_len} number".format(ext_len=ext_len))
+        answer = input("{question}\n".format(question=question))
+    
+    return answer
