@@ -80,6 +80,18 @@ def get_valid_phone_number(question):
 def get_valid_forward(question, ext_len=4):
     """
         Get an input from the end user and verify it is either a valid phone number or extension format
+
+        Inputs:
+            question = string to ask the user
+
+        Recognized formats:
+            1234567890
+            123 456 7890
+            123-456-7890
+            (123)4567890
+            (123) 456 7890
+            (123) 456-7890
+            (123)-456-7890
     """
     input_format = re.compile(r"^(\(?\d{3}\)?\s?-?\d{3}\s?-?\d{4})|(\d{" + str(ext_len) + "}$")
     answer = input("{question}\n".format(question=question))
