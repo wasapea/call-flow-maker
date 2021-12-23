@@ -42,6 +42,12 @@ class TestHelpers(unittest.TestCase):
         self.assertTrue(get_valid_phone_number("test q")) # Inputs: 123-456-7890
         self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 456 7890
 
+    @patch('builtins.input', side_effect=["", "123", "12345678901", "1234", "1234", "123", "1234567890"])
+    def get_valid_forward(self, inputs):
+        self.assertTrue(get_valid_forward("test q")) # Inputs: (blank/enter), 123, 12345678901, 1234
+        self.assertTrue(get_valid_forward("test q", 3)) # Inputs: 1234, 123
+        self.assertTrue(get_valid_forward("test q")) # Inputs: 1234567890
+
 
 if __name__ == "__main__":
     unittest.main()

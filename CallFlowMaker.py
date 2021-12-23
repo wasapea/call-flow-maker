@@ -76,3 +76,16 @@ def get_valid_phone_number(question):
         answer = input("{question}\n".format(question=question))
 
     return True
+
+def get_valid_forward(question, ext_len=4):
+    """
+        Get an input from the end user and verify it is either a valid phone number or extension format
+    """
+    input_format = re.compile(r"^(\(?\d{3}\)?\s?-?\d{3}\s?-?\d{4})|(\d{" + str(ext_len) + "}$")
+    answer = input("{question}\n".format(question=question))
+    
+    while not re.match(input_format, answer):
+        print("Please enter a 10 digit phone number or {ext_len} digit extension".format(ext_len=ext_len))
+        answer = input("{question}\n".format(question=question))
+
+    return True
