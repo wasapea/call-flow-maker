@@ -56,6 +56,13 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(get_line_type("1234"), LineType.SUB) # Inputs: 4
         self.assertEqual(get_line_type("1234"), LineType.VM) # Inputs: 5
 
+    @patch('builtins.input', side_effect=["11", "5", "4", "5", "5", "5"])
+    def test_get_num_in_range(self, inputs):
+        self.assertEqual(get_num_in_range("test"), 5) # Inputs: 11, 5
+        self.assertEqual(get_num_in_range("test", num_min=5), 5) # Inputs: 4, 5
+        self.assertEqual(get_num_in_range("test", num_max=6), 5) # Inputs: 5
+        self.assertEqual(get_num_in_range("test", num_min=5, num_max=5), 5) # Inputs: 5
+
 class TestLines(unittest.TestCase):
     @patch('builtins.input', side_effect=["testing", "5", "1234567890", "12340", "Main TOD", "1"])
     def test_setup(self, inputs):

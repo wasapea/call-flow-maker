@@ -151,6 +151,28 @@ def get_line_type(ext):
     elif answer == 5:
         return LineType.VM
 
+def get_num_in_range(question, num_min=1, num_max=10):
+    """
+        Get an input from the end user and verify it is in the range specified (inclusive)
+
+        Inputs:
+            question = string to ask the user
+            num_min = minimum answer
+            num_max = maximum answer
+    """
+    answer = input("{question}\n".format(question=question))
+    answer_format = re.compile(r"^\d+$")
+
+    while not re.match(answer_format, answer):
+        print("Please enter a number between {min} and {max}".format(min=num_min, max=num_max))
+        answer = input("{question}\n".format(question=question))
+
+    while not num_min <= int(answer) <= num_max:
+        print("Please enter a number between {min} and {max}".format(min=num_min, max=num_max))
+        answer = input("{question}\n".format(question=question))
+
+    return int(answer)
+
 # Main code
 def setup():
     """
@@ -160,7 +182,7 @@ def setup():
             bg = dictionary with business group settings
     """
     name = input("What is the name of the business?\n")
-    ext_len = get_valid_extension("How long are the extensions?", 1) # We need a number between 0 and 9, this is like a 1 digit extension
+    ext_len = get_num_in_range("How long are the extensions?", num_min=1, num_max=10)
     full_main_num = get_valid_phone_number("What is the 10 digit number of the main line?")
     ext_main_num = get_valid_extension("What is its extension?", ext_len)
     name_main_num = input("What is the main number called?")
@@ -173,8 +195,6 @@ def setup():
         "main_ext": ext_main_num,
         "main_type": type_main_num
     }
-
-    #make_line(ext_main_num, name_main_num, type_main_num)
 
     return bg
 
@@ -194,7 +214,10 @@ def main():
     """
         Main logic
     """
-    setup()
+    missing_exts = []
+    prov_lines = []
+    bg = setup()
+
 
 if __name__ == "__main__":
     main()
@@ -236,7 +259,7 @@ def make_tod(line):
     """
     line["schedules"] = []
     line["connections"] = []
-    num_schedules = get_valid_extension("How many schedules are there?", 1) # Asking for a 1 digit number
+    num_schedules = get_num_in_range("How many schedules are there?", num_min=1, num_max=10)
     count = 1
     for s in range(1, int(num_schedules) + 1):
         active = input("When is schedule {count} active?".format(count=count))
