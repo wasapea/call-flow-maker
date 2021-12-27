@@ -5,6 +5,7 @@
 
 # Notes
 # Questions passed to helpers should NOT include a newline, helpers add the newline
+# This change is just to verify my extensions correctly connect to Github
 
 # Imports
 import re
