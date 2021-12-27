@@ -56,6 +56,47 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(get_line_type("1234"), LineType.SUB) # Inputs: 4
         self.assertEqual(get_line_type("1234"), LineType.VM) # Inputs: 5
 
+class TestLines(unittest.TestCase):
+    @patch('builtins.input', side_effect=["testing", "5", "1234567890", "12340", "Main TOD", "1"])
+    def test_setup(self, inputs):
+        bg = {
+            "name": "testing",
+            "ext_len": "5",
+            "main_num": "1234567890",
+            "main_ext": "12340",
+            "main_type": LineType.TOD
+        }
+        output = setup()
+        self.assertEqual(bg, output)
+
+    @patch('builtins.input', side_effect=["2", "8-5", "12345", "All other times", "1234567890"])
+    def test_make_tod(self, inputs):
+        line = {
+            "ext": "12340",
+            "name": "Main TOD",
+            "line_type": LineType.TOD
+        }
+        tod = {
+            "ext": "12340",
+            "name": "Main TOD",
+            "line_type": LineType.TOD,
+            "schedules": [
+                {
+                    "active": "8-5",
+                    "forward": "12345"
+                }, {
+                    "active": "All other times",
+                    "forward": "1234567890"
+                }
+            ],
+            "connections": [
+                {"to_ext": "12345", "from_ext": "12340", "label": "8-5"},
+                {"to_ext": "1234567890", "from_ext": "12340", "label": "All other times"}
+            ]
+        }
+        test = make_tod(line)
+        self.assertEqual(test, tod)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -155,19 +155,28 @@ def get_line_type(ext):
 def setup():
     """
         Ask the user questions to set up the business group.
+
+        Outputs:
+            bg = dictionary with business group settings
     """
     name = input("What is the name of the business?\n")
     ext_len = get_valid_extension("How long are the extensions?", 1) # We need a number between 0 and 9, this is like a 1 digit extension
     full_main_num = get_valid_phone_number("What is the 10 digit number of the main line?")
     ext_main_num = get_valid_extension("What is its extension?", ext_len)
+    name_main_num = input("What is the main number called?")
+    type_main_num = get_line_type(ext_main_num)
 
     bg = {
         "name": name,
         "ext_len": ext_len,
         "main_num": full_main_num,
         "main_ext": ext_main_num,
-        "main_type": ""
+        "main_type": type_main_num
     }
+
+    #make_line(ext_main_num, name_main_num, type_main_num)
+
+    return bg
 
 def update(bg):
     """
@@ -185,7 +194,79 @@ def main():
     """
         Main logic
     """
-    pass
+    setup()
 
 if __name__ == "__main__":
     main()
+
+
+
+
+def make_line(ext, name, line_type):
+    """
+        Make a new line
+
+        Inputs:
+            ext = string with extension
+            name = string with name
+            line_type = LineType enum
+    """
+    line = {
+        "ext": ext,
+        "name": name,
+        "line_type": line_type
+    }
+    if line_type == LineType.TOD:
+        line = make_tod(line)
+    elif line_type == LineType.MLHG:
+        line = make_mlhg(line)
+    elif line_type == LineType.AA:
+        line = make_aa(line)
+    elif line_type == LineType.SUB:
+        line = make_sub(line)
+    elif line_type == LineType.VM:
+        line = make_vm(line)
+    
+    return line
+
+
+def make_tod(line):
+    """
+        Make a line a TOD line
+    """
+    line["schedules"] = []
+    line["connections"] = []
+    num_schedules = get_valid_extension("How many schedules are there?", 1) # Asking for a 1 digit number
+    count = 1
+    for s in range(1, int(num_schedules) + 1):
+        active = input("When is schedule {count} active?".format(count=count))
+        forward = get_valid_forward("Where does {schedule} forward?".format(schedule=active), len(line["ext"]))
+        line["schedules"].append({"active": active, "forward": forward})
+        line["connections"].append({"to_ext": forward, "from_ext": line["ext"], "label": active})
+        count +=1
+
+    return line
+
+def make_mlhg(line):
+    """
+        Make a line a MLHG line
+    """
+    pass
+
+def make_aa(line):
+    """
+        Make a line an AA line
+    """
+    pass
+
+def make_sub(line):
+    """
+        Make a line a subscriber line
+    """
+    pass
+
+def make_vm(line):
+    """
+        Make a line a voicemail box
+    """
+    pass
