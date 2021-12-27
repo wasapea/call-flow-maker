@@ -33,20 +33,21 @@ class TestHelpers(unittest.TestCase):
 
     @patch('builtins.input', side_effect=["", "12345678901", "1234", "1234567890", "1234567890", "(123)4567890", "(123) 4567890", "(123) 456-7890", "123 456 7890", "123-456-7890", "(123) 456 7890"])
     def test_valid_number(self, inputs):
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (blank/enter), 12345678901, 1234, 1234567890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 1234567890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123)4567890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 4567890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 456-7890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 123 456 7890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: 123-456-7890
-        self.assertTrue(get_valid_phone_number("test q")) # Inputs: (123) 456 7890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: (blank/enter), 12345678901, 1234, 1234567890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: 1234567890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: (123)4567890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: (123) 4567890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: (123) 456-7890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: 123 456 7890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: 123-456-7890
+        self.assertEqual(get_valid_phone_number("test q"), "1234567890") # Inputs: (123) 456 7890
 
-    @patch('builtins.input', side_effect=["", "123", "12345678901", "1234", "1234", "123", "1234567890"])
-    def get_valid_forward(self, inputs):
-        self.assertTrue(get_valid_forward("test q")) # Inputs: (blank/enter), 123, 12345678901, 1234
-        self.assertTrue(get_valid_forward("test q", 3)) # Inputs: 1234, 123
-        self.assertTrue(get_valid_forward("test q")) # Inputs: 1234567890
+    @patch('builtins.input', side_effect=["", "123", "12345678901", "1234", "1234", "123", "12345678901", "1234567890"])
+    def test_get_valid_forward(self, inputs):
+        self.assertEqual(get_valid_forward("test q"), "1234") # Inputs: (blank/enter), 123, 12345678901, 1234
+        self.assertEqual(get_valid_forward("test q", 3), "123") # Inputs: 1234, 123
+        self.assertEqual(get_valid_forward("test q"), "1234567890") # Inputs: 12345678901, 1234567890
+        
 
 
 if __name__ == "__main__":

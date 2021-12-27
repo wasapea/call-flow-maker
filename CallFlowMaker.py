@@ -47,7 +47,7 @@ def get_valid_extension(question, ext_len=4):
     answer = input("{question}\n".format(question=question))
 
     while not re.match(ext_format, answer):
-        print("Please enter a {ext_len} number".format(ext_len=ext_len))
+        print("Please enter a {ext_len} digit number".format(ext_len=ext_len))
         answer = input("{question}\n".format(question=question))
     
     return answer
@@ -75,7 +75,11 @@ def get_valid_phone_number(question):
         print("Please enter a 10 digit phone number")
         answer = input("{question}\n".format(question=question))
 
-    return True
+    number = ""
+    for c in answer:
+        if not c in ["(", " ", ")", "-"]:
+            number += c
+    return number
 
 def get_valid_forward(question, ext_len=4):
     """
@@ -93,11 +97,15 @@ def get_valid_forward(question, ext_len=4):
             (123) 456-7890
             (123)-456-7890
     """
-    input_format = re.compile(r"^(\(?\d{3}\)?\s?-?\d{3}\s?-?\d{4})|(\d{" + str(ext_len) + "}$")
+    input_format = re.compile(r"^((\(?\d{3}\)?\s?-?\d{3}\s?-?\d{4})|(\d{" + str(ext_len) + "}))$")
     answer = input("{question}\n".format(question=question))
     
     while not re.match(input_format, answer):
         print("Please enter a 10 digit phone number or {ext_len} digit extension".format(ext_len=ext_len))
         answer = input("{question}\n".format(question=question))
 
-    return True
+    number = ""
+    for c in answer:
+        if not c in ["(", " ", ")", "-"]:
+            number += c
+    return number
