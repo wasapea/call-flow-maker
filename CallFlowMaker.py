@@ -133,11 +133,11 @@ def get_line_type(ext):
             SUB
             VM
     """
-    answer = input("What type of line is {ext}?\n1 - TOD\n2 - MLHG\n3 - AA\n4 - Subscriber\n5 - Voicemail box\n")
+    answer = input("What type of line is {ext}?\n1 - TOD\n2 - MLHG\n3 - AA\n4 - Subscriber\n5 - Voicemail box\n".format(ext=ext))
     answer_format = re.compile(r"^[1-5]$")
 
     while not re.match(answer_format, answer):
-        answer = input("What type of line is {ext}?\n1 - TOD\n2 - MLHG\n3 - AA\n4 - Subscriber\n5 - Voicemail box\n")
+        answer = input("What type of line is {ext}?\n1 - TOD\n2 - MLHG\n3 - AA\n4 - Subscriber\n5 - Voicemail box\n".format(ext=ext))
 
     answer = int(answer) # Regex already verified it was an int, so it's safe to cast
     if answer == 1:
