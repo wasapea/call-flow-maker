@@ -48,6 +48,13 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(get_valid_forward("test q", 3), "123") # Inputs: 1234, 123
         self.assertEqual(get_valid_forward("test q"), "1234567890") # Inputs: 12345678901, 1234567890
         
+    @patch('builtins.input', side_effect=["0", "1", "2", "3", "4", "5"])
+    def test_get_line_type(self, inputs):
+        self.assertEqual(get_line_type("1234"), LineType.TOD) # Inputs: 0, 1
+        self.assertEqual(get_line_type("1234"), LineType.MLHG) # Inputs: 2
+        self.assertEqual(get_line_type("1234"), LineType.AA) # Inputs: 3
+        self.assertEqual(get_line_type("1234"), LineType.SUB) # Inputs: 4
+        self.assertEqual(get_line_type("1234"), LineType.VM) # Inputs: 5
 
 
 if __name__ == "__main__":
