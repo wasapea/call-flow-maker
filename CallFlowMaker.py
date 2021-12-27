@@ -198,29 +198,28 @@ def setup():
 
     return bg
 
-def update(bg):
-    """
-        Updates the business group after changes
-    """
-    pass
-
 def update_exts(bg):
     """
         Iterates through the connections specified to determine if we have any unprovisioned extensions
     """
     pass
 
-def main():
+def main(bg):
     """
         Main logic
+
+        Input:
+            bg = dictionary of business group information
     """
     missing_exts = []
     prov_lines = []
     bg = setup()
 
+    prov_lines[bg["ext_main_num"]] = make_line(bg["ext_main_num"], bg["name_main_num"], bg["type_main_num"])
 
 if __name__ == "__main__":
-    main()
+    bg = setup()
+    main(bg)
 
 
 
